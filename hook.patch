@@ -1,0 +1,26 @@
+--- a/Panel.qml
++++ b/Panel.qml
+@@ -35,6 +35,8 @@
+   // Countdowns and "last updated" ages read this instead of Date.now() so the
+   // panel keeps telling the truth while it sits open.
+   property double nowMs: Date.now()
++  // agent-insights: which providers' usage detail is collapsed, by providerId.
++  property var insightsCollapsed: ({})
+ 
+   // Every account of every provider that has more than one, in page order.
+   // The keyboard picks one by its position; picking only looks, and Enter on
+@@ -1582,6 +1584,14 @@
+         }
+       }
+     }
++
++    // agent-insights: restored per-day / per-model detail (StatsSection.qml).
++    StatsSection {
++      width: section.width
++      panel: root
++      usageModel: usage
++      provider: section.provider
++    }
+   }
+ 
+   // A provider's mark, falling back to the bar glyph when it ships none.
