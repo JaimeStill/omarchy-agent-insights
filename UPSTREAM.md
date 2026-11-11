@@ -27,3 +27,21 @@ blocks by hand, then regenerate the patch with the command it prints.
 `collectors.py` is not copied: the collectors import it from `$OMARCHY_PATH`.
 `manifest.json` is always generated from upstream's, so new providers and settings
 come across automatically.
+
+## Letting Claude Code do it
+
+`.claude/agents/upstream-sync.md` is a Claude Code agent that runs this whole procedure, from
+inside this repo:
+
+```bash
+cd ~/plugins/omarchy-agent-insights && claude "use the upstream-sync agent"
+```
+
+It runs the steps above:
+- checks whether the installed release changed
+- syncs, and repairs `hook.patch` if it no longer applies
+- checks `StatsSection.qml` against anything upstream renamed
+- validates the plugin and checks the live panel for QML errors
+- bumps the version and commits
+
+It never pushes; review its report, then `git push`.
